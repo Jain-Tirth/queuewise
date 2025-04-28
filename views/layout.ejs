@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'QueueWise' %> - QueueWise</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/landing-theme.css">
+    <%- typeof extraStyles !== 'undefined' ? extraStyles : '' %>
+</head>
+<body class="landing-container">
+    <div class="cta-background">
+        <div class="cta-shape shape-1"></div>
+        <div class="cta-shape shape-2"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav class="landing-nav">
+            <div class="nav-logo">QueueWise</div>
+            <div class="nav-links">
+                <% if (user && !user.isAdmin) { %>
+                <a href="/home" class="nav-link">Home</a>
+                <a href="/booking" class="nav-link">Book</a>
+                <% } %>
+
+                <% if (user && user.isAdmin) { %>
+                <a href="/home" class="nav-link">Home</a>
+                <a href="/admin" class="nav-link">Admin Panel</a>
+                <a href="/analytics" class="nav-link">Analytics</a>
+                <% } %>
+            </div>
+            <div class="nav-actions">
+                <% if (user) { %>
+                <div class="dropdown">
+                    <a href="#" class="nav-login dropdown-toggle" id="userDropdown" data-toggle="dropdown">
+                        <i class="fas fa-user-circle mr-1"></i> <%= user.username %>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="/profile"><i class="fas fa-id-card mr-2"></i>Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+                    </div>
+                </div>
+                <% } else { %>
+                <a href="/login" class="nav-login">Login</a>
+                <a href="/register" class="nav-signup">Sign Up</a>
+                <% } %>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding-top: 120px; min-height: calc(100vh - 200px);">
+        <div class="container">
+            <%- body %>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="hackathon-footer">
+        <div class="hackathon-info">
+            <div class="hackathon-logo">QueueWise</div>
+            <div class="hackathon-tagline">Smart queue management made simple</div>
+        </div>
+
+        <div class="team-info">
+            <div class="team-name">Developed by Ctrl+Alt+Elite</div>
+            <div class="tech-stack">
+                <span class="tech-item">Node.js</span>
+                <span class="tech-item">Express</span>
+                <span class="tech-item">Firebase</span>
+                <span class="tech-item">EJS</span>
+                <span class="tech-item">Bootstrap</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <%- typeof extraScripts !== 'undefined' ? extraScripts : '' %>
+</body>
+</html>

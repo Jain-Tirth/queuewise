@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QueueWise - Waiting Time Prediction</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/modern-style.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="text-center mb-4">
+                    <h1 class="main-title">QueueWise</h1>
+                    <p class="text-muted">Your Personalized Queue Prediction</p>
+                </div>
+
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="/logout" class="btn btn-outline-danger">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h2 class="text-center">Waiting Time Prediction</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <div class="display-4 text-primary">
+                                <i class="fas fa-hourglass-half mr-2"></i>
+                                <strong><%= waitingTime %></strong>
+                                <span class="text-muted font-weight-normal">minutes</span>
+                            </div>
+                            <p class="mt-2">Estimated waiting time for your booking on <strong><%= modelInput.date %></strong></p>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-info-circle mr-2 text-primary"></i>
+                                    Booking Details
+                                </h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <table class="table table-striped mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <th><i class="fas fa-users mr-2 text-secondary"></i>Queue Length</th>
+                                            <td><span class="badge badge-primary badge-pill"><%= modelInput.current_queue_length %></span> people ahead of you</td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="far fa-calendar-alt mr-2 text-secondary"></i>Date</th>
+                                            <td><%= modelInput.date %></td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="far fa-clock mr-2 text-secondary"></i>Time</th>
+                                            <td><%= modelInput.time %></td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fas fa-stopwatch mr-2 text-secondary"></i>Avg. Service Time</th>
+                                            <td><%= modelInput.average_service_time.toFixed(2) %> minutes</td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fas fa-sun mr-2 text-secondary"></i>Time of Day</th>
+                                            <td><%= modelInput.time_of_day %></td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fas fa-calendar-day mr-2 text-secondary"></i>Day of Week</th>
+                                            <td><%= modelInput.day_of_week %></td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fas fa-umbrella-beach mr-2 text-secondary"></i>Is Holiday</th>
+                                            <td>
+                                                <% if(modelInput.is_holiday) { %>
+                                                    <span class="badge badge-warning">Yes</span>
+                                                <% } else { %>
+                                                    <span class="badge badge-secondary">No</span>
+                                                <% } %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fas fa-user-tie mr-2 text-secondary"></i>Customer Type</th>
+                                            <td><%= modelInput.customer_type_mix %></td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fas fa-cloud-sun mr-2 text-secondary"></i>Weather</th>
+                                            <td><%= modelInput.weather_condition %></td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fas fa-gift mr-2 text-secondary"></i>Special Offer</th>
+                                            <td>
+                                                <% if(modelInput.special_offer_running) { %>
+                                                    <span class="badge badge-success">Yes</span>
+                                                <% } else { %>
+                                                    <span class="badge badge-secondary">No</span>
+                                                <% } %>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="form-footer">
+                            <div>
+                                <a href="/" class="btn btn-primary">
+                                    <i class="fas fa-plus-circle mr-1"></i> New Booking
+                                </a>
+                            </div>
+                            <div>
+                                <a href="/logout" class="btn btn-outline-danger">
+                                    <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <!-- Firebase Database -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAdQco43lX5_FvsMevpEcTIppSU5SPY0XI",
+            authDomain: "queuewise-pro.firebaseapp.com",
+            databaseURL: "https://queuewise-pro-default-rtdb.firebaseio.com",
+            projectId: "queuewise-pro",
+            storageBucket: "queuewise-pro.firebasestorage.app",
+            messagingSenderId: "530268740026",
+            appId: "1:530268740026:web:c0b1b2206ce4a6c578a583",
+            measurementId: "G-YQ8MV32ZBR"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Get initial values
+        const initialWaitingTime = parseFloat('<%= waitingTime %>');
+        const initialQueueLength = parseInt('<%= modelInput.current_queue_length %>');
+        const averageServiceTime = parseFloat('<%= modelInput.average_service_time %>');
+        const bookingDate = '<%= modelInput.date %>';
+
+        // Get DOM elements for updating
+        const waitingTimeElement = document.querySelector('.display-4.text-primary strong');
+        const queueLengthElement = document.querySelector('table tbody tr:first-child .badge');
+
+        // Calculate new waiting time based on queue length and current factors
+        function calculateNewWaitingTime(newQueueLength) {
+            // Simple approximation - scale the waiting time proportionally to queue length
+            if (initialQueueLength === 0) return 0;
+            return (initialWaitingTime * newQueueLength / initialQueueLength).toFixed(2);
+        }
+
+        // Listen for changes in bookings
+        database.ref('bookings').on('value', (snapshot) => {
+            const bookings = snapshot.val() || {};
+
+            // Count active bookings for the specific date
+            let activeBookingsForDate = Object.values(bookings).filter(booking =>
+                booking.date === bookingDate && booking.status !== 'served'
+            ).length;
+
+            // Update queue length display
+            if (queueLengthElement) {
+                queueLengthElement.textContent = activeBookingsForDate;
+                const queueLengthCell = document.querySelector('table tbody tr:first-child td');
+                if (queueLengthCell) {
+                    queueLengthCell.innerHTML =
+                        `<span class="badge badge-primary badge-pill">${activeBookingsForDate}</span> people ahead of you`;
+                }
+            }
+
+            // Update waiting time
+            if (waitingTimeElement) {
+                const newWaitingTime = calculateNewWaitingTime(activeBookingsForDate);
+                waitingTimeElement.textContent = newWaitingTime;
+
+                // Add visual indication of change
+                waitingTimeElement.parentElement.classList.add('updated');
+                setTimeout(() => {
+                    waitingTimeElement.parentElement.classList.remove('updated');
+                }, 1000);
+            }
+        });
+    </script>
+
+    <style>
+        .updated {
+            animation: highlight 1s ease-in-out;
+        }
+
+        @keyframes highlight {
+            0% { color: #39FF14; }
+            50% { color: #00FFC3; }
+            100% { color: #39FF14; }
+        }
+    </style>
+</body>
+</html>

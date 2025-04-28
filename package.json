@@ -1,0 +1,37 @@
+{
+  "name": "hackspiremodelpage",
+  "version": "1.0.0",
+  "description": "Organization booking system with waiting time prediction",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "booking",
+    "prediction",
+    "queue",
+    "machine-learning"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.6",
+    "ejs-layouts": "^0.0.1",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.1",
+    "firebase": "^9.23.0",
+    "fs-extra": "^10.1.0",
+    "multer": "^1.4.3",
+    "node-pickle": "0.0.2",
+    "pandas": "0.0.3",
+    "pickle": "^0.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

@@ -1,0 +1,287 @@
+<link rel="stylesheet" href="/css/profile.css">
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card" style="background-color: rgba(30, 30, 30, 0.7); border: 1px solid rgba(62, 142, 237, 0.2); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border-radius: 16px; overflow: hidden;">
+            <div class="card-header" style="background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid rgba(62, 142, 237, 0.2);">
+                <h2 class="mb-0" style="color: var(--accent);">Profile Settings</h2>
+            </div>
+            <div class="card-body">
+                <% if (message) { %>
+                    <div class="alert <%= message.type === 'success' ? 'alert-success' : 'alert-danger' %> alert-dismissible fade show" role="alert">
+                        <%= message.text %>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <% } %>
+
+                <div class="row">
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <div class="text-center">
+                            <div class="profile-image-container mb-3">
+                                <% if (userData.photoURL) { %>
+                                    <img src="<%= userData.photoURL %>" alt="Profile Picture" class="profile-image">
+                                <% } else { %>
+                                    <div class="profile-image-placeholder">
+                                        <i class="fas fa-user-circle"></i>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <h4 style="color: var(--light);"><%= userData.displayName || userData.username %></h4>
+                            <p class="text-muted"><%= userData.email %></p>
+                            <p>
+                                <span class="badge" style="background-color: rgba(0, 255, 179, 0.2); color: var(--accent); padding: 0.5rem 1rem; border-radius: 2rem; display: inline-block; border: 1px solid rgba(0, 255, 179, 0.3);">
+                                    <%= userData.isAdmin ? 'Administrator' : 'User' %>
+                                </span>
+                            </p>
+                            <p class="text-muted">Member since <%= new Date(userData.createdAt).toLocaleDateString() %></p>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <ul class="nav nav-tabs mb-4" id="profileTabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">
+                                    <i class="fas fa-user mr-2"></i>Profile
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="security-tab" data-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false">
+                                    <i class="fas fa-lock mr-2"></i>Security
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="preferences-tab" data-toggle="tab" href="#preferences" role="tab" aria-controls="preferences" aria-selected="false">
+                                    <i class="fas fa-cog mr-2"></i>Preferences
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="profileTabsContent">
+                            <!-- Profile Tab -->
+                            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <form action="/profile/update" method="POST" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="displayName">Display Name</label>
+                                        <input type="text" class="form-control" id="displayName" name="displayName" value="<%= userData.displayName || userData.username %>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email Address</label>
+                                        <input type="email" class="form-control" id="email" value="<%= userData.email %>" readonly>
+                                        <small class="form-text text-muted">Email address cannot be changed</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phoneNumber">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" value="<%= userData.phoneNumber || '' %>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profileImage">Profile Picture</label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="profileImage" name="profileImage" accept="image/*">
+                                            <label class="custom-file-label" for="profileImage">Choose file</label>
+                                        </div>
+                                        <small class="form-text text-muted">Max file size: 2MB. Supported formats: JPG, PNG, GIF</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bio">Bio</label>
+                                        <textarea class="form-control" id="bio" name="bio" rows="3"><%= userData.bio || '' %></textarea>
+                                    </div>
+                                    <button type="submit" class="btn hero-button primary">
+                                        <i class="fas fa-save mr-2"></i>Save Changes
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Security Tab -->
+                            <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+                                <form action="/profile/change-password" method="POST">
+                                    <div class="form-group">
+                                        <label for="currentPassword">Current Password</label>
+                                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="newPassword">New Password</label>
+                                        <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirmPassword">Confirm New Password</label>
+                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                                    </div>
+                                    <div class="password-strength-meter mb-3">
+                                        <div class="password-strength-bar"></div>
+                                        <small class="password-strength-text text-muted">Password strength: <span>Not set</span></small>
+                                    </div>
+                                    <button type="submit" class="btn hero-button primary">
+                                        <i class="fas fa-key mr-2"></i>Change Password
+                                    </button>
+                                </form>
+
+                                <hr style="border-color: rgba(62, 142, 237, 0.2);">
+
+                                <h5 style="color: var(--light);">Two-Factor Authentication</h5>
+                                <p class="text-muted">Enhance your account security by enabling two-factor authentication.</p>
+                                <button class="btn hero-button secondary" disabled>
+                                    <i class="fas fa-shield-alt mr-2"></i>Enable 2FA
+                                    <small class="ml-2">(Coming Soon)</small>
+                                </button>
+                            </div>
+
+                            <!-- Preferences Tab -->
+                            <div class="tab-pane fade" id="preferences" role="tabpanel" aria-labelledby="preferences-tab">
+                                <form action="/profile/preferences" method="POST">
+                                    <h5 style="color: var(--light);">Notification Settings</h5>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="emailNotifications" name="emailNotifications" <%= userData.preferences?.emailNotifications ? 'checked' : '' %>>
+                                            <label class="custom-control-label" for="emailNotifications">Email Notifications</label>
+                                        </div>
+                                        <small class="form-text text-muted">Receive booking confirmations and updates via email</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="smsNotifications" name="smsNotifications" <%= userData.preferences?.smsNotifications ? 'checked' : '' %>>
+                                            <label class="custom-control-label" for="smsNotifications">SMS Notifications</label>
+                                        </div>
+                                        <small class="form-text text-muted">Receive booking confirmations and updates via SMS</small>
+                                    </div>
+
+                                    <h5 style="color: var(--light); margin-top: 20px;">Display Settings</h5>
+                                    <div class="form-group">
+                                        <label for="language">Language</label>
+                                        <select class="form-control" id="language" name="language">
+                                            <option value="en" <%= userData.preferences?.language === 'en' ? 'selected' : '' %>>English</option>
+                                            <option value="es" <%= userData.preferences?.language === 'es' ? 'selected' : '' %>>Spanish</option>
+                                            <option value="fr" <%= userData.preferences?.language === 'fr' ? 'selected' : '' %>>French</option>
+                                            <option value="de" <%= userData.preferences?.language === 'de' ? 'selected' : '' %>>German</option>
+                                            <option value="zh" <%= userData.preferences?.language === 'zh' ? 'selected' : '' %>>Chinese</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="timeFormat">Time Format</label>
+                                        <select class="form-control" id="timeFormat" name="timeFormat">
+                                            <option value="12h" <%= userData.preferences?.timeFormat === '12h' ? 'selected' : '' %>>12-hour (AM/PM)</option>
+                                            <option value="24h" <%= userData.preferences?.timeFormat === '24h' ? 'selected' : '' %>>24-hour</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn hero-button primary">
+                                        <i class="fas fa-save mr-2"></i>Save Preferences
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking History Section -->
+        <div class="card mt-4" style="background-color: rgba(30, 30, 30, 0.7); border: 1px solid rgba(62, 142, 237, 0.2); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border-radius: 16px; overflow: hidden;">
+            <div class="card-header" style="background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid rgba(62, 142, 237, 0.2);">
+                <h4 class="mb-0" style="color: var(--accent);">Booking History</h4>
+            </div>
+            <div class="card-body">
+                <% if (bookings && bookings.length > 0) { %>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Service</th>
+                                    <th>Status</th>
+                                    <th>Wait Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% bookings.forEach(booking => { %>
+                                    <tr>
+                                        <td><%= new Date(booking.date).toLocaleDateString() %></td>
+                                        <td><%= booking.time %></td>
+                                        <td><%= booking.service || 'General' %></td>
+                                        <td>
+                                            <% if (booking.status === 'served') { %>
+                                                <span class="badge badge-success">Completed</span>
+                                            <% } else if (booking.status === 'processing') { %>
+                                                <span class="badge badge-warning">In Progress</span>
+                                            <% } else { %>
+                                                <span class="badge badge-info">Waiting</span>
+                                            <% } %>
+                                        </td>
+                                        <td><%= booking.waitTime || 'N/A' %> min</td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } else { %>
+                    <div class="text-center py-4">
+                        <i class="fas fa-calendar-times fa-3x mb-3" style="color: var(--secondary);"></i>
+                        <h5 style="color: var(--light);">No Booking History</h5>
+                        <p class="text-muted">You haven't made any bookings yet.</p>
+                        <a href="/booking" class="btn hero-button primary mt-2">
+                            <i class="fas fa-calendar-plus mr-2"></i>Make a Booking
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    // Password strength meter
+    document.addEventListener('DOMContentLoaded', function() {
+        const newPasswordInput = document.getElementById('newPassword');
+        const strengthBar = document.querySelector('.password-strength-bar');
+        const strengthText = document.querySelector('.password-strength-text span');
+
+        if (newPasswordInput) {
+            newPasswordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+
+                // Check password length
+                if (password.length >= 8) strength += 1;
+
+                // Check for mixed case
+                if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 1;
+
+                // Check for numbers
+                if (password.match(/\d/)) strength += 1;
+
+                // Check for special characters
+                if (password.match(/[^a-zA-Z\d]/)) strength += 1;
+
+                // Update strength meter
+                strengthBar.className = 'password-strength-bar';
+
+                if (password.length === 0) {
+                    strengthBar.style.width = '0';
+                    strengthText.textContent = 'Not set';
+                } else if (strength < 2) {
+                    strengthBar.classList.add('password-strength-weak');
+                    strengthText.textContent = 'Weak';
+                } else if (strength < 4) {
+                    strengthBar.classList.add('password-strength-medium');
+                    strengthText.textContent = 'Medium';
+                } else {
+                    strengthBar.classList.add('password-strength-strong');
+                    strengthText.textContent = 'Strong';
+                }
+            });
+        }
+
+        // Update custom file input label with selected filename
+        const fileInput = document.getElementById('profileImage');
+        const fileLabel = document.querySelector('.custom-file-label');
+
+        if (fileInput && fileLabel) {
+            fileInput.addEventListener('change', function() {
+                const fileName = this.files[0] ? this.files[0].name : 'Choose file';
+                fileLabel.textContent = fileName;
+            });
+        }
+    });
+</script>

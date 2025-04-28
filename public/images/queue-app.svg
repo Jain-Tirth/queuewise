@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <rect width="600" height="400" fill="#004d00" rx="20" ry="20"/>
+
+  <!-- Dark green pattern overlay -->
+  <rect width="600" height="400" fill="url(#darkGreenPattern)" opacity="0.3" rx="20" ry="20"/>
+
+  <defs>
+    <pattern id="darkGreenPattern" patternUnits="userSpaceOnUse" width="50" height="50" patternTransform="rotate(45)">
+      <rect width="50" height="50" fill="#006400"/>
+      <rect x="25" y="0" width="25" height="25" fill="#008000"/>
+      <rect x="0" y="25" width="25" height="25" fill="#008000"/>
+    </pattern>
+  </defs>
+
+  <!-- Mobile phone outline -->
+  <rect x="200" y="50" width="200" height="320" rx="20" ry="20" fill="none" stroke="#39FF14" stroke-width="3"/>
+
+  <!-- Screen -->
+  <rect x="210" y="70" width="180" height="280" rx="5" ry="5" fill="#003300"/>
+
+  <!-- App interface elements -->
+  <!-- Header -->
+  <rect x="210" y="70" width="180" height="40" fill="#39FF14" opacity="0.8" rx="5" ry="5"/>
+  <text x="300" y="95" font-family="Arial" font-size="16" fill="white" text-anchor="middle" font-weight="bold">QueueWise</text>
+
+  <!-- Queue status -->
+  <rect x="230" y="130" width="140" height="60" rx="10" ry="10" fill="none" stroke="#39FF14" stroke-width="2"/>
+  <text x="300" y="155" font-family="Arial" font-size="14" fill="#39FF14" text-anchor="middle">Your Position: 3</text>
+  <text x="300" y="175" font-family="Arial" font-size="14" fill="#39FF14" text-anchor="middle">Est. Wait: 12 min</text>
+
+  <!-- Progress bar -->
+  <rect x="230" y="210" width="140" height="20" rx="10" ry="10" fill="none" stroke="#39FF14" stroke-width="2"/>
+  <rect x="230" y="210" width="70" height="20" rx="10" ry="10" fill="#39FF14" opacity="0.6"/>
+
+  <!-- Buttons -->
+  <rect x="230" y="250" width="140" height="40" rx="20" ry="20" fill="#39FF14"/>
+  <text x="300" y="275" font-family="Arial" font-size="14" fill="black" text-anchor="middle" font-weight="bold">Check In</text>
+
+  <rect x="230" y="310" width="140" height="40" rx="20" ry="20" fill="none" stroke="#39FF14" stroke-width="2"/>
+  <text x="300" y="335" font-family="Arial" font-size="14" fill="#39FF14" text-anchor="middle">Cancel</text>
+
+  <!-- Decorative elements -->
+  <circle cx="100" cy="100" r="50" fill="none" stroke="#39FF14" stroke-width="1" opacity="0.2"/>
+  <circle cx="500" cy="300" r="70" fill="none" stroke="#39FF14" stroke-width="1" opacity="0.2"/>
+
+  <!-- Data visualization -->
+  <path d="M450,150 L470,130 L490,160 L510,120 L530,140" stroke="#39FF14" stroke-width="2" fill="none"/>
+  <circle cx="450" cy="150" r="4" fill="#39FF14"/>
+  <circle cx="470" cy="130" r="4" fill="#39FF14"/>
+  <circle cx="490" cy="160" r="4" fill="#39FF14"/>
+  <circle cx="510" cy="120" r="4" fill="#39FF14"/>
+  <circle cx="530" cy="140" r="4" fill="#39FF14"/>
+
+  <!-- AI elements -->
+  <path d="M100,250 C100,220 140,220 140,250 C140,280 100,280 100,250 Z" fill="none" stroke="#39FF14" stroke-width="2"/>
+  <path d="M120,230 L120,270" stroke="#39FF14" stroke-width="2"/>
+  <path d="M100,250 L140,250" stroke="#39FF14" stroke-width="2"/>
+
+  <!-- Connecting lines -->
+  <path d="M150,250 L200,250" stroke="#39FF14" stroke-width="1" stroke-dasharray="5,5"/>
+  <path d="M400,250 L450,150" stroke="#39FF14" stroke-width="1" stroke-dasharray="5,5"/>
+
+  <!-- Glow effects -->
+  <rect x="230" y="250" width="140" height="40" rx="20" ry="20" fill="#39FF14" opacity="0.3" filter="blur(5px)"/>
+</svg>

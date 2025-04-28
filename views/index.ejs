@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QueueWise - User Booking System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/modern-style.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h1 class="main-title">QueueWise</h1>
+                        <p class="text-muted">Predict your waiting time with precision</p>
+                    </div>
+                    <div>
+                        <a href="/logout" class="btn btn-outline-danger">
+                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header bg-blue">
+                        <h2 class="text-center">Book Your Spot</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="/book" method="POST" class="booking-form">
+                            <div class="form-group">
+                                <label for="date"><i class="far fa-calendar-alt mr-2"></i>Date</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="time"><i class="far fa-clock mr-2"></i>Time</label>
+                                <input type="time" class="form-control" id="time" name="time" required>
+                            </div>
+                            
+                            <!-- Hidden fields - Regular users don't set these -->
+                            <input type="hidden" name="isHoliday" value="false">
+                            <input type="hidden" name="specialOfferRunning" value="false">
+                            
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-hourglass-half mr-2"></i>Check Waiting Time
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <p class="text-muted small">
+                        <i class="fas fa-info-circle mr-1"></i> 
+                        Our AI-powered system predicts waiting times based on historical data and current conditions
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html> 

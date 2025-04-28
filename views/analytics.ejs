@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QueueWise - Analytics Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/landing-theme.css">
+    <link rel="stylesheet" href="/css/modern-style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="landing-container">
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h1 class="main-title" style="background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 700;">QueueWise Analytics</h1>
+                        <p class="text-muted">Comprehensive Queue & Service Time Analysis</p>
+                    </div>
+                    <div>
+                        <a href="/admin" class="btn hero-button primary mr-2">
+                            <i class="fas fa-cogs mr-1"></i> Admin Panel
+                        </a>
+                        <a href="/logout" class="btn hero-button secondary">
+                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card stats-card" style="background: linear-gradient(135deg, rgba(62, 142, 237, 0.8), rgba(0, 255, 179, 0.4)); border: 1px solid rgba(62, 142, 237, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border-radius: 16px;">
+                            <div class="card-body text-center">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h5 style="color: rgba(255, 255, 255, 0.7); margin-bottom: 0.5rem;">Waiting</h5>
+                                        <h1 id="total-waiting" class="stats-value" style="color: var(--light); font-size: 2.5rem; font-weight: 700;">-</h1>
+                                    </div>
+                                    <div style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: rgba(255, 255, 255, 0.2);">
+                                        <i class="fas fa-user-clock fa-lg" style="color: var(--light);"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stats-card" style="background: linear-gradient(135deg, rgba(0, 255, 179, 0.8), rgba(0, 229, 255, 0.4)); border: 1px solid rgba(0, 255, 179, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border-radius: 16px;">
+                            <div class="card-body text-center">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h5 style="color: rgba(255, 255, 255, 0.7); margin-bottom: 0.5rem;">Processing</h5>
+                                        <h1 id="total-processing" class="stats-value" style="color: var(--light); font-size: 2.5rem; font-weight: 700;">-</h1>
+                                    </div>
+                                    <div style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: rgba(255, 255, 255, 0.2);">
+                                        <i class="fas fa-spinner fa-lg" style="color: var(--light);"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stats-card" style="background: linear-gradient(135deg, rgba(62, 142, 237, 0.8), rgba(0, 178, 72, 0.4)); border: 1px solid rgba(62, 142, 237, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border-radius: 16px;">
+                            <div class="card-body text-center">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h5 style="color: rgba(255, 255, 255, 0.7); margin-bottom: 0.5rem;">Served</h5>
+                                        <h1 id="total-served" class="stats-value" style="color: var(--light); font-size: 2.5rem; font-weight: 700;">-</h1>
+                                    </div>
+                                    <div style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: rgba(255, 255, 255, 0.2);">
+                                        <i class="fas fa-check-circle fa-lg" style="color: var(--light);"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stats-card" style="background: linear-gradient(135deg, rgba(0, 255, 179, 0.8), rgba(0, 176, 255, 0.4)); border: 1px solid rgba(0, 255, 179, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border-radius: 16px;">
+                            <div class="card-body text-center">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h5 style="color: rgba(255, 255, 255, 0.7); margin-bottom: 0.5rem;">Total Dates</h5>
+                                        <h1 id="total-dates" class="stats-value" style="color: var(--light); font-size: 2.5rem; font-weight: 700;">-</h1>
+                                    </div>
+                                    <div style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: rgba(255, 255, 255, 0.2);">
+                                        <i class="fas fa-calendar-day fa-lg" style="color: var(--light);"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Peak Hours Chart -->
+                        <div class="card mb-4" style="background-color: rgba(30, 30, 30, 0.7); border: 1px solid rgba(62, 142, 237, 0.2); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);">
+                            <div class="card-header" style="background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid rgba(62, 142, 237, 0.2);">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4 class="mb-0" style="color: var(--accent);"><i class="fas fa-chart-line mr-2"></i>Peak Hours Analysis</h4>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="peakHoursDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border: 1px solid rgba(62, 142, 237, 0.3); color: var(--secondary);">
+                                            <i class="fas fa-calendar-alt mr-1"></i> Filter
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="peakHoursDropdown">
+                                            <a class="dropdown-item" href="#">All Time</a>
+                                            <a class="dropdown-item" href="#">This Week</a>
+                                            <a class="dropdown-item" href="#">This Month</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="peakHoursChart"></canvas>
+                                </div>
+                                <div class="text-center text-muted">
+                                    <small>Distribution of bookings by hour of day across all dates</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <!-- Visitors by Date Chart -->
+                        <div class="card mb-4" style="background-color: rgba(30, 30, 30, 0.7); border: 1px solid rgba(62, 142, 237, 0.2); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);">
+                            <div class="card-header" style="background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid rgba(62, 142, 237, 0.2);">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4 class="mb-0" style="color: var(--accent);"><i class="fas fa-users mr-2"></i>Visitors by Date</h4>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="visitorsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border: 1px solid rgba(62, 142, 237, 0.3); color: var(--secondary);">
+                                            <i class="fas fa-filter mr-1"></i> Filter
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="visitorsDropdown">
+                                            <a class="dropdown-item" href="#">All Dates</a>
+                                            <a class="dropdown-item" href="#">Last 7 Days</a>
+                                            <a class="dropdown-item" href="#">Last 30 Days</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="visitorsChart"></canvas>
+                                </div>
+                                <div class="text-center text-muted">
+                                    <small>Total visitors and service completion for each date</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4" style="background-color: rgba(30, 30, 30, 0.7); border: 1px solid rgba(62, 142, 237, 0.2); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);">
+                    <div class="card-header" style="background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid rgba(62, 142, 237, 0.2);">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0" style="color: var(--accent);"><i class="fas fa-calendar mr-2"></i>Queue Analytics by Date</h4>
+                            <span class="live-indicator" style="color: var(--secondary);">Auto-updating every 3 seconds</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="queues-container" class="row">
+                            <div class="col-12 text-center">
+                                <div class="loader"></div>
+                                <p>Loading queue data...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/js/analytics.js"></script>
+
+    <style>
+        /* Additional styles specifically for the analytics page */
+        .bg-gradient-primary {
+            background: linear-gradient(45deg, #39FF14, #00E676);
+        }
+
+        .bg-gradient-warning {
+            background: linear-gradient(45deg, #00FFC3, #00E5FF);
+        }
+
+        .bg-gradient-success {
+            background: linear-gradient(45deg, #39FF14, #00B248);
+        }
+
+        .bg-gradient-info {
+            background: linear-gradient(45deg, #00FFC3, #00B0FF);
+        }
+
+        .text-white-50 {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        .icon-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .bg-white-translucent {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Responsive styles for analytics page */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        @media (max-width: 992px) {
+            .main-title {
+                font-size: 2.2rem;
+            }
+
+            .card-header h4 {
+                font-size: 1.4rem;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container-fluid {
+                padding: 0 15px;
+            }
+
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .card-header h4 {
+                font-size: 1.2rem;
+            }
+
+            .d-flex.justify-content-between.align-items-center {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+
+            .d-flex.justify-content-between.align-items-center > div:last-child {
+                margin-top: 1rem;
+                align-self: flex-start;
+            }
+
+            .stats-card {
+                margin-bottom: 1rem;
+            }
+
+            .chart-container {
+                height: 220px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container-fluid {
+                padding: 0 10px;
+            }
+
+            .main-title {
+                font-size: 1.8rem;
+            }
+
+            .card-header h4 {
+                font-size: 1.1rem;
+            }
+
+            .btn {
+                padding: 0.375rem 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .card-body {
+                padding: 1.25rem 0.75rem;
+            }
+
+            .stats-value {
+                font-size: 1.8rem;
+            }
+
+            .chart-container {
+                height: 200px;
+            }
+
+            .icon-circle {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</body>
+</html>
